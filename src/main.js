@@ -1,1 +1,0 @@
-const angular = require('angular')
