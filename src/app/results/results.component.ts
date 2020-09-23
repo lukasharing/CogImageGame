@@ -10,6 +10,10 @@ export class ResultsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
+    // Storage Test
+    console.log(Object.keys(sessionStorage));
+
   }
 
 }

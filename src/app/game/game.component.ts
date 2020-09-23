@@ -25,17 +25,20 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // Storage Test
+    localStorage.setItem("game1", "100,10");
+
     // Init Phaser
     this.game = new Phaser.Game({
       type: Phaser.AUTO,
-      height: window.innerHeight,
-      width: window.innerWidth,
+      height: window.innerHeight - 100.,
+      width: window.innerWidth - 32.,
       scene: [ Game ],
       parent: 'gameContainer',
-      physics: {
+      /*physics: {
         default: 'arcade',
         arcade: {}
-      }
+      }*/
     });
 
   }
