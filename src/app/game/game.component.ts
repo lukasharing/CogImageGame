@@ -11,18 +11,22 @@ import { Game } from 'src/app/game/game'
 export class GameComponent implements OnInit {
 
   game: Phaser.Game;
-  config: Phaser.Types.Core.GameConfig;
 
   constructor() {
 
-    this.phaser_init();
-
+    /*fetch("https://api.500px.com/v1/photos?feature=popular&image_size[]=3&image_size=3,2", {
+      method: "POST",
+      body: "consumer_key=TxNYEWxvU26cylAkxTc1KgNmXCPvFc1EazhIk5Po",
+    }).then(e => {
+      console.log(e);
+    })*/
 
   }
 
-  phaser_init(){
-    // Config Phaser Variables
-    this.config = {
+  ngOnInit(): void {
+
+    // Init Phaser
+    this.game = new Phaser.Game({
       type: Phaser.AUTO,
       height: window.innerHeight,
       width: window.innerWidth,
@@ -30,17 +34,9 @@ export class GameComponent implements OnInit {
       parent: 'gameContainer',
       physics: {
         default: 'arcade',
-        arcade: {
-          gravity: { y: 100 }
-        }
+        arcade: {}
       }
-    };
-  }
-
-  ngOnInit(): void {
-
-    // Init Phaser
-    this.game = new Phaser.Game(this.config);
+    });
 
   }
 
