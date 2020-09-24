@@ -7,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultsComponent implements OnInit {
 
+  information : string[];
+
   constructor() { }
 
   ngOnInit(): void {
     
     // Storage Test
-    console.log(Object.keys(sessionStorage));
-
+    const storage = localStorage.getItem("game_information");
+    this.information = storage === null ? [] : storage.split(",").map(object => JSON.parse(object));
   }
 
 }
