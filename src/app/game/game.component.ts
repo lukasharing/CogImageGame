@@ -26,11 +26,7 @@ export class GameComponent implements OnInit {
       height: window.innerHeight - 100.,
       width: window.innerWidth - 32.,
       scene: [ Game ],
-      parent: 'gameContainer',
-      /*physics: {
-        default: 'arcade',
-        arcade: {}
-      }*/
+      parent: 'gameContainer'
     });
 
   }
