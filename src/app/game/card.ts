@@ -7,6 +7,8 @@ export class Card extends Phaser.GameObjects.Text{
     kill : boolean;
     duration : number;
 
+    animation_lr : Phaser.Tweens.Tween;
+
     particles : Phaser.GameObjects.Particles.ParticleEmitterManager;
 
     constructor(scene : Game){
@@ -46,7 +48,7 @@ export class Card extends Phaser.GameObjects.Text{
         // Duration is dependent to the screen Size
         const min_duration = 4000. - Number(scene.game.config.width);
         this.duration = Math.max(min_duration - scene.seconds * 4.0, min_duration - 1500);
-        scene.tweens.add({
+        this.animation_lr = scene.tweens.add({
             targets: this,
             x: scene.game.config.width,
             y: y,
@@ -66,31 +68,30 @@ export class Card extends Phaser.GameObjects.Text{
         if(this.text[0] != char) return false;
         // Kill Entity
         this.death_animation();
-        // Points Function
-        const dt = (this.scene as Game).seconds - this.seconds_spawn;
         // Delta Time Normalized [0, 1]
-        const dtn = 1. - (1000. * dt) / this.duration;
+        const dtn = 1. - this.animation_lr.progress;
         (this.scene as Game).show_text(dtn);
-        const points = 200.0 * dtn;
         // Give Points
+        const points = 200.0 * dtn;
         (this.scene as Game).give_points(points);
         return true;
     };
 
     death_animation(){
-        // Kill From Game Array
-        this.kill = true;
-        this.particles.setScale(0.);
+        console.log(this);
         // Add Death Transition
         this.scene.tweens.add({
             targets: [this],
             alpha: 0.,
             scale: 1.2,
             onComplete: _ => {
+                // Kill From Game Array
                 this.destroy(false);
             },
-            duration: 500.
+            duration: 100.
         });
+        this.kill = true;
+        this.particles.setScale(0.);
     };
 
 

@@ -6,17 +6,17 @@
         <table [hidden]="information.length == 0" id="results">
             <thead>
                 <tr>
-                    <!-- <th scope="col">Position</th> -->
-                    <th scope="col">Points</th>
-                    <th scope="col">Time Played</th>
+                    <th>Position</th>
+                    <th>Points</th>
+                    <th>Time Played</th>
                 </tr>
             </thead>
             <tbody>
-                <!--<tr ng-repeat="i in [] | orderBy:'score'">
-                    <td>{{$index + 1}}</td>
-                    <td>{{e.score}}</td>
-                    <td>{{e.score}}</td>
-                </tr>-->
+                <tr *ngFor="let elm of information; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{elm.score.toFixed(0)}} points</td>
+                    <td>{{elm.time.toFixed(0)}} s</td>
+                </tr>
             </tbody>
         </table>
         <ul class="buttons">

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./results.component.css']
 })
 export class ResultsComponent implements OnInit {
-
+  
   information : any[];
 
   constructor() { }
@@ -23,7 +23,7 @@ export class ResultsComponent implements OnInit {
       this.information = elements.map(function(information) {
           const split = information.split(":");
           return {score : Number(split[0]), time: Number(split[1])};
-      });
+      }).sort((a, b) => a.score - b.score);
       console.log(this.information);
     }
   }

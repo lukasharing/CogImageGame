@@ -16,10 +16,6 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    // Storage Test
-    localStorage.setItem("game1", "100,10");
-
     // Init Phaser
     this.game = new Phaser.Game({
       type: Phaser.AUTO,

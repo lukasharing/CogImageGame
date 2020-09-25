@@ -74,6 +74,11 @@ body{
     color: #222;
 }
 
+.play{
+    background-color: rgb(72, 207, 72) !important;
+    border: 1px solid rgb(33, 146, 33) !important;
+}
+
 .container > .alert{
     font-size: 14px;
     border: 1px solid rgb(182, 15, 15);
@@ -84,4 +89,21 @@ body{
 
 .middle_box > .container > .alert > a{
     color: white;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+table td, table th{
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table th {
+    background-color: #ffc862;
+    color: #333;
+    text-align: center;
 }

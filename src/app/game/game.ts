@@ -115,14 +115,25 @@ export class Game extends Phaser.Scene{
 			}
 			// Remove If penalized
 			if(!letter_found){
-				this.penalized.setAlpha(1.0);
-				this.time.delayedCall(PENALIZE_TIME, _ => this.penalized.setAlpha(0.5), [], this);
+				this.penalize();
 			}else{
-				this.score_text.setText(`SCORE: ${this.score.toFixed(0)}!`);
+				this.score_text.setText(`SCORE: ${this.score.toFixed(0).padStart(6, "0")}`);
 			}
 		}
 		
 	};
+
+	penalize(){
+		this.penalized.setAlpha(1.0);
+		this.tweens.add({
+			targets: this.penalized,
+			scale: 1.2,
+			duration: 1000.,
+			ease: "elastic",
+			onComplete: _ => this.penalized.setScale(1.0)
+		})
+		this.time.delayedCall(PENALIZE_TIME, _ => this.penalized.setAlpha(0.5), [], this);
+	}
 
 	show_text(t : number){
 
@@ -137,7 +148,11 @@ export class Game extends Phaser.Scene{
 			this.shout_text.setText("GREAT!")
 		}
 
-
+		this.tweens.add({
+            targets: this.shout_text,
+			alpha: 1.0,
+			duration: 100.,
+        });
 		
     };
 
