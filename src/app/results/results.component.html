@@ -3,20 +3,20 @@
         <h1>Results</h1>
             
         <div [hidden]="information.length > 0" class="alert">This section is currently empty, please <a href="/game">play</a> at least one game.</div>
-        <table [hidden]="information.length == 0" class="table" id="results">
+        <table [hidden]="information.length == 0" id="results">
             <thead>
                 <tr>
-                <th scope="col">Position</th>
-                <th scope="col">Points</th>
-                <th scope="col">Time Played</th>
+                    <!-- <th scope="col">Position</th> -->
+                    <th scope="col">Points</th>
+                    <th scope="col">Time Played</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="information in this.informations">
-                    <th scope="row">1</th>
-                    <td>{{information.score}}</td>
-                    <td>{{information.time}}</td>
-                </tr>
+                <!--<tr ng-repeat="i in [] | orderBy:'score'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{e.score}}</td>
+                    <td>{{e.score}}</td>
+                </tr>-->
             </tbody>
         </table>
         <ul class="buttons">

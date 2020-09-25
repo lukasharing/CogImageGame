@@ -1,18 +1,15 @@
 import { Game } from 'src/app/game/game';
 
-const words = require('an-array-of-english-words');
-
-const POSSIBLE = words.filter(word => word.length <= 6);
-
 export class Card extends Phaser.GameObjects.Text{
 
     text : string;
     seconds_spawn : number; 
     kill : boolean;
+    duration : number;
 
     constructor(scene : Game){
         // Generate random word from dictionary
-        const random_word = POSSIBLE[Phaser.Math.Between(0, POSSIBLE.length)];
+        const random_word = scene.dictionary[Phaser.Math.Between(0, scene.dictionary.length)];
 
         // Initialize Text Variable
         const initial_y = Phaser.Math.Between(0, Number(scene.game.config.height) - 100.);
@@ -36,12 +33,12 @@ export class Card extends Phaser.GameObjects.Text{
         // Tween
         // Duration is dependent to the screen Size
         const min_duration = 4000. - Number(scene.game.config.width);
-        const duration = Math.max(min_duration - scene.seconds * 4.0, min_duration - 1500);
+        this.duration = Math.max(min_duration - scene.seconds * 4.0, min_duration - 1500);
         scene.tweens.add({
             targets: this,
             x: scene.game.config.width,
             y: initial_y,
-            duration: duration,
+            duration: this.duration,
             onComplete: _ => {
                 if(!this.kill){
                     scene.hit();
@@ -58,7 +55,10 @@ export class Card extends Phaser.GameObjects.Text{
         this.death_animation();
         // Points Function
         const dt = (this.scene as Game).seconds - this.seconds_spawn;
-        const points = 200.0 * Math.exp(-dt * 0.1);
+        // Delta Time Normalized [0, 1]
+        const dtn = 1. - dt / this.duration;
+
+        const points = 200.0 * dtn;
         // Give Points
         (this.scene as Game).give_points(points);
         return true;

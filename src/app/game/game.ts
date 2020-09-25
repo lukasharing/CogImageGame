@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 import { Card } from 'src/app/game/card';
 
-// 2 Seconds of pennalization
+// Penalization Time
 const PENALIZE_TIME = 2000.;
 // Number of Lifes
 const NUMBER_LIFES : integer = 3;
@@ -13,6 +13,8 @@ export class Game extends Phaser.Scene{
 	seconds : number;
 
 	words : Card[];
+	dictionary : string[];
+
 	spawned : number;
 	next_spawn : integer;
 
@@ -26,14 +28,21 @@ export class Game extends Phaser.Scene{
         super({ key: 'main' });
     }
 
-    preload(){};
+    async preload(){
+		this.scene.pause();
+		const response = await fetch("https://raw.githubusercontent.com/lorenbrichter/Words/master/Words/en.txt");
+		await response.text().then(txt => this.dictionary = txt.split("\n").filter(word => word.length > 2 && word.length < 5));
+		this.scene.resume();
+
+		this.load.image("star_particle", "assets/effect_star.png");
+	};
 
     create(){
 		// Set Cleaning color to white
 		this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#FFFFFF");
 		
 		// Spawn
-		this.next_spawn = Phaser.Math.Between(0., 3.);
+		this.next_spawn = 0.;
 		this.spawned = 0.;
 
 		// Key Event
@@ -91,7 +100,7 @@ export class Game extends Phaser.Scene{
 
 	save_game_info(){
 		const last_information = localStorage.getItem("points") || "";
-		const current_information = `{score:${this.score.toString()},time:${this.seconds.toString()}}`;
+		const current_information = `${this.score.toString()}:${this.seconds.toString()}`;
 		// Add Information to LocalStorage
 		localStorage.setItem("game_information", current_information.concat(',', last_information));
 	};
@@ -111,7 +120,9 @@ export class Game extends Phaser.Scene{
 		const dspawn = this.seconds - this.spawned;
 		if(dspawn >= this.next_spawn){
 			this.spawned = this.seconds;
-			this.next_spawn = Phaser.Math.Between(2., 3.);
+
+			const min_spawn = Math.max(3.5 - this.seconds / 10., 2.5);
+			this.next_spawn = Phaser.Math.Between(min_spawn, min_spawn + 1.0);
 			this.words.push(new Card(this));
 		}
 	};

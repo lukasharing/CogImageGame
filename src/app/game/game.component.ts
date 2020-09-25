@@ -12,14 +12,7 @@ export class GameComponent implements OnInit {
   game: Phaser.Game;
 
   constructor() {
-
-    /*fetch("https://api.500px.com/v1/photos?feature=popular&image_size[]=3&image_size=3,2", {
-      method: "POST",
-      body: "consumer_key=TxNYEWxvU26cylAkxTc1KgNmXCPvFc1EazhIk5Po",
-    }).then(e => {
-      console.log(e);
-    })*/
-
+    
   }
 
   ngOnInit(): void {

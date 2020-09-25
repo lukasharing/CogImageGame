@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultsComponent implements OnInit {
 
-  information : string[];
+  information : any[];
 
   constructor() { }
 
@@ -15,7 +15,17 @@ export class ResultsComponent implements OnInit {
     
     // Storage Test
     const storage = localStorage.getItem("game_information");
-    this.information = storage === null ? [] : storage.split(",").map(object => JSON.parse(object));
+    if(storage === null){
+      this.information = [];
+    }else{
+      const elements = storage.split(",");
+      elements.pop();
+      this.information = elements.map(function(information) {
+          const split = information.split(":");
+          return {score : Number(split[0]), time: Number(split[1])};
+      });
+      console.log(this.information);
+    }
   }
 
 }
