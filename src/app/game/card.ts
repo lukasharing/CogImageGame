@@ -46,7 +46,7 @@ export class Card extends Phaser.GameObjects.Text{
 
         // Tween
         // Duration is dependent to the screen Size
-        const min_duration = 4000. - Number(scene.game.config.width);
+        const min_duration = 4000. - Number(scene.game.config.width) * 0.1;
         this.duration = Math.max(min_duration - scene.seconds * 4.0, min_duration - 1500);
         this.animation_lr = scene.tweens.add({
             targets: this,

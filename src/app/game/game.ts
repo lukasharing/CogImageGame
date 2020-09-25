@@ -24,6 +24,7 @@ export class Game extends Phaser.Scene{
 	spawned : number;
 	next_spawn : integer;
 
+	game_over : Phaser.GameObjects.Text;
 	score_text : Phaser.GameObjects.Text;
 	penalized : Phaser.GameObjects.Text;
 	shout_text : Phaser.GameObjects.Text;
@@ -72,6 +73,17 @@ export class Game extends Phaser.Scene{
 			padding: {x: 10, y: 10}
 		});
 		this.score_text.setDepth(1000);
+
+		const x_over = Number(this.game.config.width) * 0.5 - 80;
+		const y_over = Number(this.game.config.height) * 0.5 - 16;
+		this.game_over = this.add.text(x_over, y_over, "GAME OVER!", {
+			font: "40px Verdana",
+			color: "#FFFFFF",
+			stroke: "#FF0000",
+			strokeThickness: 10,
+		});
+		this.game_over.setVisible(false);
+		this.game_over.setDepth(9000);
 
 		this.penalized = this.add.text(183., 0, "PENALIZED", {
 			font: "20px Verdana",
@@ -183,6 +195,10 @@ export class Game extends Phaser.Scene{
 	};
 
 	save_game_info(){
+		// Show Game Over
+		this.game_over.setVisible(true);
+
+		// Store Information
 		const last_information = localStorage.getItem("game_information") || "";
 		const current_information = `${this.score.toString()}:${this.seconds.toString()}`;
 		// Add Information to LocalStorage
