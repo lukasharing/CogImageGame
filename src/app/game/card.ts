@@ -56,9 +56,8 @@ export class Card extends Phaser.GameObjects.Text{
             onComplete: _ => {
                 if(!this.kill){
                     scene.hit();
-                }else{
-                    this.death_animation();
                 }
+                this.death_animation();
             }
         });
 
@@ -78,7 +77,6 @@ export class Card extends Phaser.GameObjects.Text{
     };
 
     death_animation(){
-        console.log(this);
         // Add Death Transition
         this.scene.tweens.add({
             targets: [this],
@@ -86,12 +84,12 @@ export class Card extends Phaser.GameObjects.Text{
             scale: 1.2,
             onComplete: _ => {
                 // Kill From Game Array
-                this.destroy(false);
+                //this.destroy(false);
             },
             duration: 100.
         });
         this.kill = true;
-        this.particles.setScale(0.);
+        this.particles.destroy(true);
     };
 
 

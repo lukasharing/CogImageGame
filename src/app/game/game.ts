@@ -12,7 +12,9 @@ const PATH = "https://raw.githubusercontent.com/lorenbrichter/Words/master/Words
 
 export class Game extends Phaser.Scene{
 
-	score : integer;	
+	score : integer;
+	bonus : string;
+	num_bonus : integer;	
 	seconds : number;
 
 	words : Card[];
@@ -103,6 +105,7 @@ export class Game extends Phaser.Scene{
 			stroke: "#ffffff",
 		});
 		this.shout_text.setDepth(2000);
+		this.shout_text.setScale(0.0);
 	};
 
     key_down(e){
@@ -137,21 +140,29 @@ export class Game extends Phaser.Scene{
 
 	show_text(t : number){
 
-        if(t < 0.3){
+		let new_bonus = "";
+        if(t < 0.33){
 			this.shout_text.setColor("#ff0000")
-			this.shout_text.setText("BAD!")
-        }else if(t < 0.6){
+			new_bonus = "BAD";
+        }else if(t < 0.66){
 			this.shout_text.setColor("#ec7732")
-			this.shout_text.setText("OK!")
+			new_bonus = "OK";
         }else{
 			this.shout_text.setColor("#00ff00")
-			this.shout_text.setText("GREAT!")
+			new_bonus = "GREAT";
 		}
+		// Accumulate Bonus
+		this.num_bonus = this.bonus === new_bonus ? (this.num_bonus + 1) : 0; 
+		this.bonus = new_bonus;
+		this.shout_text.setText(`${this.bonus} ${this.num_bonus > 1 ? `x${this.num_bonus}` : ''}`);
 
+		this.shout_text.setVisible(true);
 		this.tweens.add({
             targets: this.shout_text,
-			alpha: 1.0,
-			duration: 100.,
+			scale: 1.0,
+			duration: 1000.,
+			ease: "bounce",
+			onComplete: e => this.shout_text.setScale(0.0)
         });
 		
     };
@@ -163,27 +174,31 @@ export class Game extends Phaser.Scene{
 			duration: 100.,
 			onComplete: e => {
 				this.lifes += 1;
+				// End of the game
 				if(this.lifes >= NUMBER_LIFES){
-					// You Finish
-					this.scene.pause();
 					this.save_game_info();
 				}
 			}
         });
-		
 	};
 
 	save_game_info(){
-		const last_information = localStorage.getItem("points") || "";
+		const last_information = localStorage.getItem("game_information") || "";
 		const current_information = `${this.score.toString()}:${this.seconds.toString()}`;
 		// Add Information to LocalStorage
 		localStorage.setItem("game_information", current_information.concat(',', last_information));
+		this.scene.pause();
 	};
 
 
 	give_points(points : integer){
 		// Increment Score
-		this.score += points;
+		let bonus_points = 0;
+		if(this.bonus == 'OK')        { bonus_points = 2.; }
+		else if(this.bonus == 'GREAT'){ bonus_points = 4.; }
+		else                          { bonus_points = 1.; }
+
+		this.score += points + bonus_points * this.num_bonus * 10.;
 	};
 
     update(dt) {
@@ -197,7 +212,7 @@ export class Game extends Phaser.Scene{
 		if(dspawn >= this.next_spawn){
 			this.spawned = this.seconds;
 
-			const min_spawn = Math.max(3.5 - this.seconds / 10., 2.5);
+			const min_spawn = Math.max(2.7 - this.seconds / 5., 1.5);
 			this.next_spawn = Phaser.Math.Between(min_spawn, min_spawn + 1.0);
 			this.words.push(new Card(this));
 		}
