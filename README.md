@@ -13,7 +13,7 @@ Simple box with play and result button, with a simple description. We could impr
 No music is going to be used, so that the player doesn't get distracted, when tried with my roommates they got lower points so I decided to remove it.
 
 # Card
-# Card Position
+## Card Position
 The x position is situated on the left of the screen, and moved to the right in a duration of time or speed.
 The y position is randomly choosen by the height of the element.
 `y = RANDOM(40, SCREEN_HEIGHT - 80)`
@@ -26,13 +26,13 @@ The more time you play the faster cards come,
 The difference or delay is calculated randomly.
 ` Delay = Random(dt, dt + 1) `
 
-# Points
+## Card Points
 
 Where `t` is delta time since the image has appear.
 
 ` Points = (1 - t / duration) * MAX_POINTS `
 
-## Penalization
+# Penalization
 Be careful! Wrong typping would make you loose time. The penalization time is fixed by the developer.
 
 ## Alert Points
@@ -40,7 +40,7 @@ You get an alert every time you keypress:
 * **GREAT**: When the card is in the first third of the size of the screen.
 * **OK**: When the card is in the first third of the size of the screen.
 * **BAD**: When the card is in the first third of the size of the screen.
-* Loose Life if the card is out of the screen.
+* You loose a life if the card is out of the screen.
 
 # Bonus
 You get, +2 for `OK`, and +4 for `GREAT` more points if you mantain your Alert Points!
@@ -48,6 +48,14 @@ The formula used is:
 `Points' = Points + (OK or GREAT) * CONSECUTIVE * BONUS_FACTOR`
 
 Consecutive *Alert Points* is increment the bonus counter, different *Alert Points* reset the bonus.
+
+# Execute
+
+```
+> cd <folder>
+> ng serve
+```
+More information: [https://cli.angular.io/]{https://cli.angular.io/}
 
 # Conclusion
 
